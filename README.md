@@ -1,6 +1,6 @@
 # Advent of Code
 
-My solutions for Advent of Code in Rust.
+My solutions for Advent of Code in Rust. Logic is written by hand but since this project is to help me learn Rust, LLMs are used to help fix syntax errors.
 
 ## Project Structure
 

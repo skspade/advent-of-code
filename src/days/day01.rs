@@ -19,28 +19,23 @@ impl RotaryDial {
             times_passes_zero: 0,
         }
     }
-    // div_euclid will give us the count of "wrap arounds"
-    // rem_euclid will give us the current current_index
     fn turn_dial(&mut self, direction: DialDirection, distance: i16) {
+        let old_floor = self.raw_position.div_euclid(100);
+
         match direction {
             DialDirection::Left => {
-                self.raw_position = self.current_index - distance;
-                self.times_passes_zero = (self.raw_position - 1).div_euclid(100);
+                self.raw_position -= distance;
                 self.current_index -= distance;
             }
             DialDirection::Right => {
-                let initial_position: i16 = self.raw_position;
-                self.raw_position = self.current_index + distance;
-                if initial_position == 0 {
-                    self.times_passes_zero = (self.raw_position - 1).div_euclid(100);
-                } else if distance > initial_position {
-                    self.times_passes_zero = (self.raw_position - 1).div_euclid(100);
-                } else {
-                    self.times_passes_zero += 0
-                }
+                self.raw_position += distance;
                 self.current_index += distance;
             }
         }
+
+        let new_floor = self.raw_position.div_euclid(100);
+        self.times_passes_zero += (new_floor - old_floor).abs();
+
         self.current_index = self.current_index.rem_euclid(100);
         if self.current_index == 0 {
             self.times_landed_on_zero += 1;

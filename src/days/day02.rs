@@ -2,7 +2,6 @@ pub fn part1(input: &[String]) -> String {
     let input_line = input.first().unwrap();
     //Parse the comma delimited list - this will give us elements that look like 1234-5678
     let input_array = input_line.split(',');
-    let mut has_repeated_twice = false;
     let mut invalid_numbers_total: i64 = 0;
     for range in input_array {
         let parse_range: Vec<_> = range
@@ -19,13 +18,11 @@ pub fn part1(input: &[String]) -> String {
             let half = current_number_length / 2;
 
             if current_number_length % 2 != 0 {
-                has_repeated_twice = false;
                 continue;
             }
             let first_half: String = stringify_current_number.chars().take(half).collect();
             let secon_half: String = stringify_current_number.chars().skip(half).collect();
             if first_half == secon_half {
-                has_repeated_twice = true;
                 invalid_numbers_total += current_number;
             }
         }
